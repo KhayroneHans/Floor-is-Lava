@@ -1,0 +1,91 @@
+import java.util.*;
+
+// Node class
+class Node {
+    int data;
+    Node left, right;
+
+    // Constructor
+    Node(int data) {
+        this.data = data;
+        left = right = null;
+    }
+}
+
+// BinaryTree class
+class BinaryTree {
+    Node root;
+
+    // Inorder Traversal
+    public void inorder(Node n, List<Integer> out) {
+        if (n == null) return;
+        inorder(n.left, out);
+        out.add(n.data);
+        inorder(n.right, out);
+    }
+
+    // Preorder Traversal
+    public void preorder(Node n, List<Integer> out) {
+        if (n == null) return;
+        out.add(n.data);
+        preorder(n.left, out);
+        preorder(n.right, out);
+    }
+
+    // Postorder Traversal
+    public void postorder(Node n, List<Integer> out) {
+        if (n == null) return;
+        postorder(n.left, out);
+        postorder(n.right, out);
+        out.add(n.data);
+    }
+
+    // Level Order Traversal
+    public List<Integer> levelOrder(Node n) {
+        List<Integer> out = new ArrayList<>();
+        if (n == null) return out;
+
+        Queue<Node> q = new ArrayDeque<>();
+        q.add(n);
+
+        while (!q.isEmpty()) {
+            Node cur = q.remove();
+            out.add(cur.data);
+            if (cur.left != null) q.add(cur.left);
+            if (cur.right != null) q.add(cur.right);
+        }
+        return out;
+    }
+}
+
+// Main class
+public class Main {
+    public static void main(String[] args) {
+        BinaryTree t = new BinaryTree();
+
+        // Build the tree
+        t.root = new Node(10);
+        t.root.left = new Node(5);
+        t.root.right = new Node(15);
+        t.root.left.left = new Node(2);
+        t.root.left.right = new Node(7);
+        t.root.right.left = new Node(12);
+
+        // Lists for traversals
+        List<Integer> in = new ArrayList<>();
+        List<Integer> pre = new ArrayList<>();
+        List<Integer> post = new ArrayList<>();
+
+        // Perform traversals
+        t.inorder(t.root, in);
+        t.preorder(t.root, pre);
+        t.postorder(t.root, post);
+        List<Integer> level = t.levelOrder(t.root);
+
+        // Print results
+        System.out.println("Inorder   : " + in);
+        System.out.println("Preorder  : " + pre);
+        System.out.println("Postorder : " + post);
+        System.out.println("Level order: " + level);
+    }
+}
