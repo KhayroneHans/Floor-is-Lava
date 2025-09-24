@@ -1,0 +1,62 @@
+import java.util.PriorityQueue;
+import java.util.Comparator;
+import java.util.Scanner;
+
+// Task class
+class Task {
+    String description;
+    int priority;
+
+    // Constructor
+    public Task(String description, int priority) {
+        this.description = description;
+        this.priority = priority;
+    }
+
+    // Override toString to display task info
+    @Override
+    public String toString() {
+        return "[Priority " + priority + "] " + description;
+    }
+}
+
+// Main class
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Create a max-priority queue (higher number = higher priority)
+        PriorityQueue<Task> taskQueue = new PriorityQueue<>(
+            Comparator.comparingInt((Task t) -> t.priority).reversed()
+        );
+
+        // Ask number of tasks
+        System.out.print("Enter number of tasks: ");
+        int n = sc.nextInt();
+        sc.nextLine(); // clear buffer
+
+        // Input tasks
+        for (int i = 1; i <= n; i++) {
+            System.out.print("Enter description for Task " + i + ": ");
+            String desc = sc.nextLine();
+
+            System.out.print("Enter priority (1-10) for Task " + i + ": ");
+            int prio = sc.nextInt();
+            sc.nextLine(); // clear buffer
+
+            taskQueue.add(new Task(desc, prio));
+        }
+
+        // Peek the next task
+        System.out.println("\nNext task: " + taskQueue.peek());
+
+        // Process tasks in order of priority
+        System.out.println("\nProcessing tasks in order of priority:");
+        while (!taskQueue.isEmpty()) {
+            Task next = taskQueue.poll(); // remove and return highest priority
+            System.out.println(next);
+        }
+
+        System.out.println("\nAll tasks have been processed.");
+    }
+}
