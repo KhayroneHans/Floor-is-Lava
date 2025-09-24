@@ -1,0 +1,76 @@
+import java.util.PriorityQueue;
+import java.util.Collections;
+import java.util.Scanner;
+
+public class HeapLab {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Input number of incidents
+        System.out.print("Enter number of incidents: ");
+        int n = sc.nextInt();
+        sc.nextLine(); // clear buffer
+
+        // Arrays to hold incident details
+        int[] ids = new int[n];
+        String[] locations = new String[n];
+        int[] severities = new int[n];
+
+        // Create two heaps
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder()); // highest first
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>(); // lowest first
+
+        // Input incidents
+        for (int i = 0; i < n; i++) {
+            ids[i] = 101 + i;
+
+            System.out.print(ids[i] + " - Enter location: ");
+            locations[i] = sc.nextLine();
+
+            System.out.print(ids[i] + " - Enter severity (1-10): ");
+            severities[i] = sc.nextInt();
+            sc.nextLine(); // clear buffer
+
+            // Add severity to both heaps
+            maxHeap.add(severities[i]);
+            minHeap.add(severities[i]);
+        }
+
+        // --- Dispatch Order (Max-Heap) ---
+        System.out.println("\nDispatch Order (Max-Heap)");
+        while (!maxHeap.isEmpty()) {
+            int sev = maxHeap.poll(); // remove highest severity
+
+            // Find incident with this severity
+            for (int i = 0; i < n; i++) {
+                if (severities[i] == sev) {
+                    System.out.println(ids[i] + " - " + locations[i] + " (Severity: " + sev + ")");
+                    severities[i] = -1; // mark as processed
+                    break;
+                }
+            }
+        }
+
+        // --- Backlog Monitoring (Min-Heap) ---
+        System.out.println("\nBacklog Monitoring (Min-Heap)");
+        for (int i = 0; i < n; i++) {
+            // restore severities for minHeap
+            if (severities[i] == -1) {
+                // already processed, reset them for backlog
+                // (this is optional, since we still have minHeap intact)
+            }
+        }
+
+        while (!minHeap.isEmpty()) {
+            int sev = minHeap.poll(); // remove lowest severity
+
+            for (int i = 0; i < n; i++) {
+                if (severities[i] == sev) {
+                    System.out.println(ids[i] + " - " + locations[i] + " (Severity: " + sev + ")");
+                    severities[i] = -1; // mark as processed
+                    break;
+                }
+            }
+        }
+    }
+}
