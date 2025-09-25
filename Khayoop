@@ -1,0 +1,55 @@
+// BloodData.java
+class BloodData {
+    // fields
+    private String bloodType;
+    private String rhFactor;
+
+    // default constructor
+    public BloodData() {
+        this.bloodType = "O";
+        this.rhFactor = "+";
+    }
+
+    // overloaded constructor
+    public BloodData(String bt, String rh) {
+        this.bloodType = bt;
+        this.rhFactor = rh;
+    }
+
+    // method to display blood data
+    public void display() {
+        System.out.println(bloodType + rhFactor + " is added to the blood bank.");
+    }
+}
+
+// RunBloodData.java
+import java.util.Scanner;
+
+public class RunBloodData {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // ask user for input
+        System.out.print("Enter blood type of patient: ");
+        String input1 = sc.nextLine();
+
+        System.out.print("Enter the Rhesus factor (+ or -): ");
+        String input2 = sc.nextLine();
+
+        BloodData bd;
+
+        // check if user entered both values
+        if (input1.isEmpty() || input2.isEmpty()) {
+            // use default constructor
+            bd = new BloodData();
+        } else {
+            // use overloaded constructor
+            bd = new BloodData(input1, input2);
+        }
+
+        // display result
+        bd.display();
+
+        sc.close();
+    }
+}
