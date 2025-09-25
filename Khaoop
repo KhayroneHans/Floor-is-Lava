@@ -1,0 +1,58 @@
+// Save this as RunBloodData.java
+import java.util.Scanner;
+
+public class RunBloodData {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter blood type of patient: ");
+        String input1 = sc.nextLine().trim();
+
+        System.out.print("Enter the Rhesus factor (+ or -): ");
+        String input2 = sc.nextLine().trim();
+
+        BloodData bd;
+        // treat empty or whitespace-only input as "not entered"
+        if (input1.isEmpty() || input2.isEmpty()) {
+            bd = new BloodData();               // use default constructor
+        } else {
+            bd = new BloodData(input1, input2); // use overloaded constructor
+        }
+
+        bd.display();
+        sc.close();
+    }
+}
+
+class BloodData {
+    // the assignment requested static fields, so keep them static
+    static String bloodType;
+    static String rhFactor;
+
+    // default constructor
+    public BloodData() {
+        bloodType = "O";
+        rhFactor = "+";
+    }
+
+    // overloaded constructor
+    public BloodData(String bt, String rh) {
+        // guard against null or empty values; normalize blood type to uppercase
+        if (bt == null || bt.trim().isEmpty()) {
+            bloodType = "O";
+        } else {
+            bloodType = bt.trim().toUpperCase();
+        }
+
+        if (rh == null || rh.trim().isEmpty()) {
+            rhFactor = "+";
+        } else {
+            rhFactor = rh.trim();
+        }
+    }
+
+    // display method
+    public void display() {
+        System.out.println(bloodType + rhFactor + " is added to the blood bank.");
+    }
+}
